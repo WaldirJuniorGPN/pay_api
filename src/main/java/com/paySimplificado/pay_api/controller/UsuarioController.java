@@ -40,6 +40,8 @@ public class UsuarioController {
     @PutMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoUsuarioComum dados) {
-        return null;
+        var usuarioComum = repository.getReferenceById(dados.id());
+        usuarioComum.atualizarDados(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoUsuarioComum(usuarioComum));
     }
 }
