@@ -1,5 +1,6 @@
 package com.paySimplificado.pay_api.model;
 
+import com.paySimplificado.pay_api.dto.request.DadosAtualizacaoUsuarioLogista;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroUsuarioLogista;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -23,5 +24,20 @@ public class UsuarioLogista extends Usuario {
         super.setEmail(dados.email());
         super.setSenha(dados.senha());
         this.cnpj = dados.cnpj();
+    }
+
+    public void atualizarDados(DadosAtualizacaoUsuarioLogista dados) {
+        if (dados.nomeCompleto() != null) {
+            super.setNomeCompleto(dados.nomeCompleto());
+        }
+        if (dados.email() != null) {
+            super.setEmail(dados.email());
+        }
+        if (dados.senha() != null) {
+            super.setEmail(dados.senha());
+        }
+        if (dados.cnpj() != null) {
+            this.cnpj = dados.cnpj();
+        }
     }
 }
