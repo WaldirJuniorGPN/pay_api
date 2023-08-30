@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("usuario-comum")
-public class UsuarioController {
+public class UsuarioComumController {
 
     @Autowired
     private UsuarioComunRepository repository;
@@ -43,5 +43,11 @@ public class UsuarioController {
         var usuarioComum = repository.getReferenceById(dados.id());
         usuarioComum.atualizarDados(dados);
         return ResponseEntity.ok(new DadosDetalhamentoUsuarioComum(usuarioComum));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletar(@PathVariable Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
