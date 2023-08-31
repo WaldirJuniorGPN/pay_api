@@ -32,6 +32,7 @@ public class TransacaoController {
 
     @GetMapping
     public ResponseEntity<Page<DadosListagemTransacao>> listar(Pageable paginacao) {
-
+        var page = repository.findAll(paginacao).map(DadosListagemTransacao::new);
+        return ResponseEntity.ok(page);
     }
 }
