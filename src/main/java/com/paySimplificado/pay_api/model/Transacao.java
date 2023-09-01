@@ -1,5 +1,6 @@
 package com.paySimplificado.pay_api.model;
 
+import com.paySimplificado.pay_api.dto.request.DadosAtualizacaoTransacao;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.repository.TransacaoRepository;
 import com.paySimplificado.pay_api.repository.UsuarioComunRepository;
@@ -40,5 +41,17 @@ public class Transacao {
         this.usuarioOrigem = usuarioOrigem;
         this.usuarioDestino = usuarioDestino;
         this.valorDaOperacao = dados.valorDaOperacao();
+    }
+
+    public void atualizarTransacao(DadosAtualizacaoTransacao dados) {
+        if (dados.idUsuarioOrigem() != null) {
+            this.usuarioOrigem = repository.getReferenceById(dados.idUsuarioOrigem());
+        }
+        if (dados.IdUsuarioDestino() != null) {
+            this.usuarioDestino = repository.getReferenceById(dados.IdUsuarioDestino());
+        }
+        if (dados.valorDaOperacao() != null) {
+            this.valorDaOperacao = dados.valorDaOperacao();
+        }
     }
 }

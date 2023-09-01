@@ -1,5 +1,6 @@
 package com.paySimplificado.pay_api.controller;
 
+import com.paySimplificado.pay_api.dto.request.DadosAtualizacaoTransacao;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.dto.response.DadosDetalhamentoTransacao;
 import com.paySimplificado.pay_api.dto.response.DadosListagemTransacao;
@@ -34,5 +35,19 @@ public class TransacaoController {
     public ResponseEntity<Page<DadosListagemTransacao>> listar(Pageable paginacao) {
         var page = repository.findAll(paginacao).map(DadosListagemTransacao::new);
         return ResponseEntity.ok(page);
+    }
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoTransacao dados) {
+        var transacao = repository.getReferenceById(dados.id());
+        transacao.atualizarTransacao(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoTransacao(transacao));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletar(@PathVariable Long id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
