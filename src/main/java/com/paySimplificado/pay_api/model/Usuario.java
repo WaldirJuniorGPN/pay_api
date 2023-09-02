@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-@DiscriminatorColumn(name = "tipo-usuario")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo-usuario", discriminatorType = DiscriminatorType.STRING)
 @EqualsAndHashCode(of = "id")
 public abstract class Usuario {
 

@@ -2,6 +2,7 @@ package com.paySimplificado.pay_api.service.validadores;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.exception.ValidacaoException;
+import com.paySimplificado.pay_api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -2,6 +2,7 @@ package com.paySimplificado.pay_api.service;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.model.Usuario;
+import com.paySimplificado.pay_api.repository.UsuarioRepository;
 import com.paySimplificado.pay_api.service.validadores.Validacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

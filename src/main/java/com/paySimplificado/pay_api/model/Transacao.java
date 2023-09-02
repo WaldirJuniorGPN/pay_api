@@ -1,6 +1,7 @@
 package com.paySimplificado.pay_api.model;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
+import com.paySimplificado.pay_api.repository.UsuarioRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
