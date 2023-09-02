@@ -1,11 +1,11 @@
 package com.paySimplificado.pay_api.controller;
 
-import com.paySimplificado.pay_api.dto.request.DadosAtualizacaoTransacao;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.dto.response.DadosDetalhamentoTransacao;
 import com.paySimplificado.pay_api.dto.response.DadosListagemTransacao;
 import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.repository.TransacaoRepository;
+import com.paySimplificado.pay_api.service.TransacaoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,13 @@ public class TransacaoController {
 
     @Autowired
     private TransacaoRepository repository;
+    @Autowired
+    private TransacaoService transacaoService;
 
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTransacao dados, UriComponentsBuilder uriComponentsBuilder) {
+        transacaoService.transfere(dados);
         var transacao = new Transacao(dados);
         repository.save(transacao);
         var uri = uriComponentsBuilder.path("/transacao/{id}").buildAndExpand(transacao.getId()).toUri();
@@ -37,17 +40,4 @@ public class TransacaoController {
         return ResponseEntity.ok(page);
     }
 
-    @PostMapping
-    @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoTransacao dados) {
-        var transacao = repository.getReferenceById(dados.id());
-        transacao.atualizarTransacao(dados);
-        return ResponseEntity.ok(new DadosDetalhamentoTransacao(transacao));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity deletar(@PathVariable Long id) {
-        repository.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
 }
