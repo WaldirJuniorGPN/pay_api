@@ -16,6 +16,7 @@ public class UsuarioLojista extends Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "BIGINT AUTO_INCREMENT")
     private Long id;
     @Column(unique = true)
     private String cnpj;

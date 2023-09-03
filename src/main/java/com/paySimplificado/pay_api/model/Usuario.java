@@ -2,18 +2,19 @@ package com.paySimplificado.pay_api.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.math.BigDecimal;
 
-@Entity(name = "Usuario")
+@MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public abstract class Usuario {
 
     private String nome;
