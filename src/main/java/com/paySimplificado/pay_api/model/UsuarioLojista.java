@@ -6,17 +6,17 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "UsuarioComum")
-@Table(name = "usuarios-comuns")
+@Entity(name = "UsuarioLogista")
+@Table(name = "usuarios-logistas")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode(of = "id")
-public class UsuarioComum extends Usuario {
+public class UsuarioLojista extends Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String cpf;
+    private String cnpj;
 }
