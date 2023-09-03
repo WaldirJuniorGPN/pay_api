@@ -4,7 +4,7 @@ import com.paySimplificado.pay_api.dto.request.DadosAtualizacaoUsuarioLogista;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroUsuarioLogista;
 import com.paySimplificado.pay_api.dto.response.DadosDetalhamentoUsuarioLogista;
 import com.paySimplificado.pay_api.dto.response.DadosListagemUsuarioLogista;
-import com.paySimplificado.pay_api.model.UsuarioLogista;
+import com.paySimplificado.pay_api.model.UsuarioLojista;
 import com.paySimplificado.pay_api.repository.UsuarioLogistaRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class UsuarioLogistaController {
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroUsuarioLogista dados, UriComponentsBuilder uriBuilder) {
-        var usuarioLogista = new UsuarioLogista(dados);
+        var usuarioLogista = new UsuarioLojista(dados);
         repository.save(usuarioLogista);
         var uri = uriBuilder.path("/usuario-logista/{id}").buildAndExpand(usuarioLogista.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuarioLogista(usuarioLogista));

@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class UsuarioLogista extends Usuario {
+public class UsuarioLojista extends Usuario {
 
     @Column(unique = true)
     private String cnpj;
 
-    public UsuarioLogista(DadosCadastroUsuarioLogista dados) {
+    public UsuarioLojista(DadosCadastroUsuarioLogista dados) {
         super.setNomeCompleto(dados.nomeCompleto());
         super.setEmail(dados.email());
         super.setSenha(dados.senha());
