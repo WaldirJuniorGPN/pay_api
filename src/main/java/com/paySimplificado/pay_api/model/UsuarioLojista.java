@@ -15,18 +15,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode(of = "id")
 public class UsuarioLojista extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", columnDefinition = "BIGINT AUTO_INCREMENT")
-    private Long id;
     @Column(unique = true)
     private String cnpj;
 
     public UsuarioLojista(DadosCadastroUsuarioLojista dados) {
-        super(dados.nome(), dados.email(), BigDecimal.ZERO);
+        super(null, dados.nome(), dados.email(), BigDecimal.ZERO);
         this.cnpj = dados.cnpj();
     }
 
