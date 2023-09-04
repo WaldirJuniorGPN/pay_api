@@ -6,6 +6,7 @@ import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.repository.TransacaoRepository;
 import com.paySimplificado.pay_api.service.RecuperaUsuario;
+import com.paySimplificado.pay_api.service.TransacaoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,15 @@ public class TransacaoController {
 
     @Autowired
     private TransacaoRepository repository;
+    @Autowired
+    private TransacaoService transacaoService;
 
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTransacao dados, UriComponentsBuilder uriComponentsBuilder){
         var recuperaUsuario = new RecuperaUsuario(dados.idUsuarioOrigem(), dados.idUsuarioDestino());
         var transacao = new Transacao(recuperaUsuario.getUsuarioOrigem(), recuperaUsuario.getUsuarioDestino(), dados.valorDaTransacao());
+        transacaoService.efetuarTransacao(dados, recuperaUsuario);
         repository.save(transacao);
         var uri = uriComponentsBuilder.path("/transacao/{id}").buildAndExpand(transacao.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTransacao(transacao));
