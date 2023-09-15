@@ -24,14 +24,16 @@ public class TransacaoController {
     private TransacaoRepository repository;
     @Autowired
     private TransacaoService transacaoService;
+    @Autowired
+    private RecuperaUsuario recuperaUsuario;
 
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTransacao dados, UriComponentsBuilder uriComponentsBuilder){
-        var recuperaUsuario = new RecuperaUsuario(dados.idUsuarioOrigem(), dados.idUsuarioDestino());
-        var transacao = new Transacao(recuperaUsuario.getUsuarioOrigem(), recuperaUsuario.getUsuarioDestino(), dados.valorDaTransacao());
-        transacaoService.efetuarTransacao(dados, recuperaUsuario);
-        repository.save(transacao);
+        this.recuperaUsuario.recuperarUsuarios(dados.idUsuarioOrigem(), dados.idUsuarioDestino());
+        var transacao = new Transacao(this.recuperaUsuario.getUsuarioOrigem(), this.recuperaUsuario.getUsuarioDestino(), dados.valorDaTransacao());
+        this.transacaoService.efetuarTransacao(dados, this.recuperaUsuario);
+        this.repository.save(transacao);
         var uri = uriComponentsBuilder.path("/transacao/{id}").buildAndExpand(transacao.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTransacao(transacao));
     }

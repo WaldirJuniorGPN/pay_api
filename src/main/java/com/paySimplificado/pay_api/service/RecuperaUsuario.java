@@ -17,7 +17,7 @@ public class RecuperaUsuario {
     private Usuario usuarioOrigem;
     private Usuario usuarioDestino;
 
-    public RecuperaUsuario(Long idUsuarioOrigem, Long idUsuarioDestino){
+    public void recuperarUsuarios(Long idUsuarioOrigem, Long idUsuarioDestino) {
         var usuarioComumOrigem = usuarioComumRepository.getReferenceById(idUsuarioOrigem);
         var usuarioComumDestino = usuarioComumRepository.getReferenceById(idUsuarioDestino);
         var usuarioLojistaDestino = usuarioLojistaRepository.getReferenceById(idUsuarioDestino);
@@ -26,7 +26,7 @@ public class RecuperaUsuario {
 
         if (usuarioComumDestino != null) {
             this.usuarioDestino = usuarioComumDestino;
-        }else {
+        } else {
             this.usuarioDestino = usuarioLojistaDestino;
         }
     }
