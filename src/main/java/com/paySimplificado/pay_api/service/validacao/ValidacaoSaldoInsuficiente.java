@@ -2,6 +2,7 @@ package com.paySimplificado.pay_api.service.validacao;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.exception.ValidacaoException;
+import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.repository.UsuarioComumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +14,10 @@ public class ValidacaoSaldoInsuficiente implements Validacao {
     private UsuarioComumRepository usuarioComumRepository;
 
     @Override
-    public void validar(DadosCadastroTransacao dados) {
-        var usuarioOrigem = usuarioComumRepository.getReferenceById(dados.idUsuarioOrigem());
+    public void validar(Transacao transacao) {
+        var usuarioOrigem = usuarioComumRepository.getReferenceById(transacao.getUsuarioOrigem().getId());
         var saldoDisponivel = usuarioOrigem.getSaldo();
-        if (saldoDisponivel.compareTo(dados.valorDaTransacao()) < 0) {
+        if (saldoDisponivel.compareTo(transacao.getValorDaTransacao()) < 0) {
             throw new ValidacaoException("Saldo insuficiente para proceguir com a transação");
         }
     }

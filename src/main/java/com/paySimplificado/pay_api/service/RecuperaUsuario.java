@@ -1,6 +1,8 @@
 package com.paySimplificado.pay_api.service;
 
 import com.paySimplificado.pay_api.model.Usuario;
+import com.paySimplificado.pay_api.model.UsuarioComum;
+import com.paySimplificado.pay_api.model.UsuarioLojista;
 import com.paySimplificado.pay_api.repository.UsuarioComumRepository;
 import com.paySimplificado.pay_api.repository.UsuarioLojistaRepository;
 import lombok.NoArgsConstructor;
@@ -18,24 +20,20 @@ public class RecuperaUsuario {
     private Usuario usuarioDestino;
 
     public void recuperarUsuarios(Long idUsuarioOrigem, Long idUsuarioDestino) {
-        var usuarioComumOrigem = usuarioComumRepository.getReferenceById(idUsuarioOrigem);
-        var usuarioComumDestino = usuarioComumRepository.getReferenceById(idUsuarioDestino);
-        var usuarioLojistaDestino = usuarioLojistaRepository.getReferenceById(idUsuarioDestino);
+        this.usuarioOrigem = this.usuarioComumRepository.getReferenceById(idUsuarioOrigem);
 
-        this.usuarioOrigem = usuarioComumOrigem;
-
-        if (usuarioComumDestino != null) {
-            this.usuarioDestino = usuarioComumDestino;
+        if (this.usuarioComumRepository.getReferenceById(idUsuarioDestino) != null) {
+            this.usuarioDestino = this.usuarioComumRepository.getReferenceById(idUsuarioDestino);
         } else {
-            this.usuarioDestino = usuarioLojistaDestino;
+             this.usuarioDestino = this.usuarioLojistaRepository.getReferenceById(idUsuarioDestino);
         }
     }
 
     public Usuario getUsuarioOrigem() {
-        return usuarioOrigem;
+        return this.usuarioOrigem;
     }
 
     public Usuario getUsuarioDestino() {
-        return usuarioDestino;
+        return this.usuarioDestino;
     }
 }

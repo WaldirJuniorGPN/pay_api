@@ -1,6 +1,7 @@
 package com.paySimplificado.pay_api.service;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
+import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.model.Usuario;
 import com.paySimplificado.pay_api.service.validacao.Validacao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,12 @@ public class TransacaoService {
         usuarioDestino.setSaldo(saldoAtual.add(valorDaTransacao));
     }
 
-    public void efetuarTransacao(DadosCadastroTransacao dados, RecuperaUsuario usuario) {
-        validadores.forEach(validacao -> validacao.validar(dados));
-        var usuarioOrigem = usuario.getUsuarioOrigem();
-        var usuarioDestino = usuario.getUsuarioDestino();
-        saca(usuarioOrigem, dados.valorDaTransacao());
-        deposita(usuarioDestino, dados.valorDaTransacao());
+    public void efetuarTransacao(Transacao transacao) {
+        validadores.forEach(validacao -> validacao.validar(transacao));
+        var usuarioOrigem = transacao.getUsuarioOrigem();
+        var usuarioDestino = transacao.getUsuarioDestino();
+        var valorDaTransacao = transacao.getValorDaTransacao();
+        saca(usuarioOrigem, valorDaTransacao);
+        deposita(usuarioDestino, valorDaTransacao);
     }
 }

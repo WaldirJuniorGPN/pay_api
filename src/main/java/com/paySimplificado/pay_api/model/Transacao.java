@@ -35,4 +35,7 @@ public class Transacao {
         this.usuarioDestino = usuarioDestino;
         this.valorDaTransacao = valorDaTransacao;
     }
+
+    public Transacao(DadosCadastroTransacao dados) {
+    }
 }

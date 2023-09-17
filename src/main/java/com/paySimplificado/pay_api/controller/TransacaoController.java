@@ -32,7 +32,7 @@ public class TransacaoController {
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTransacao dados, UriComponentsBuilder uriComponentsBuilder){
         this.recuperaUsuario.recuperarUsuarios(dados.idUsuarioOrigem(), dados.idUsuarioDestino());
         var transacao = new Transacao(this.recuperaUsuario.getUsuarioOrigem(), this.recuperaUsuario.getUsuarioDestino(), dados.valorDaTransacao());
-        this.transacaoService.efetuarTransacao(dados, this.recuperaUsuario);
+        this.transacaoService.efetuarTransacao(transacao);
         this.repository.save(transacao);
         var uri = uriComponentsBuilder.path("/transacao/{id}").buildAndExpand(transacao.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTransacao(transacao));
