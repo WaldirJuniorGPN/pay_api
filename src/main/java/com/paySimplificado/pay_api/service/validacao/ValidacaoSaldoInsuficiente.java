@@ -1,6 +1,5 @@
 package com.paySimplificado.pay_api.service.validacao;
 
-import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.exception.ValidacaoException;
 import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.repository.UsuarioComumRepository;

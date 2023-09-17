@@ -1,6 +1,7 @@
 package com.paySimplificado.pay_api.service;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
+import com.paySimplificado.pay_api.exception.ValidacaoException;
 import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.model.UsuarioComum;
 import com.paySimplificado.pay_api.model.UsuarioLojista;
@@ -54,6 +55,39 @@ class TransacaoServiceTest {
     void verificaSaqueNaContaDeOrigem() {
 
         this.transacaoService.efetuarTransacao(this.transacao);
+        var usuarioNoBanco = this.usuarioComumRepository.findById(dtoTransacao.idUsuarioOrigem()).orElse(null);
+        assertEquals(this.usuarioComumOrigem.getSaldo(), usuarioNoBanco.getSaldo());
         assertEquals(this.usuarioComumOrigem.getSaldo(), new BigDecimal("500"));
+    }
+
+    @Test
+    @Transactional
+    void verificaDepositoNaContaDeDestino() {
+        this.transacaoService.efetuarTransacao(this.transacao);
+        var usuarioNoBanco = this.usuarioLojistaRepository.findById(dtoTransacao.idUsuarioDestino()).orElse(null);
+        assertEquals(this.usuarioLojistaDestino.getSaldo(), usuarioNoBanco.getSaldo());
+        assertEquals(this.usuarioLojistaDestino.getSaldo(), new BigDecimal("500"));
+    }
+
+    @Test
+    @Transactional
+    void verificaValidacaoSaldoInsuficiente() {
+        var valorMuitoAltoDaTransacao = new BigDecimal("2000");
+        var transacaoSaldoInsuciente = new Transacao(this.recuperaUsuario.getUsuarioOrigem(), this.recuperaUsuario.getUsuarioDestino(), valorMuitoAltoDaTransacao);
+        var exception = assertThrows(ValidacaoException.class, () -> {
+            this.transacaoService.efetuarTransacao(transacaoSaldoInsuciente);
+        });
+        assertEquals("Saldo insuficiente para proceguir com a transação", exception.getMessage());
+    }
+    @Test
+    @Transactional
+    void verificaValidacaoValorDaTransacaoNegativo() {
+        var valorNegativoDaTransacao = new BigDecimal("-2000");
+        var transacaoValorNegativo = new Transacao(this.recuperaUsuario.getUsuarioOrigem(), this.recuperaUsuario.getUsuarioDestino(), valorNegativoDaTransacao);
+
+        var exception = assertThrows(IllegalArgumentException.class, () -> {
+            this.transacaoService.efetuarTransacao(transacaoValorNegativo);
+        });
+        assertEquals("O valor da transação não pode ser negativo", exception.getMessage());
     }
 }
