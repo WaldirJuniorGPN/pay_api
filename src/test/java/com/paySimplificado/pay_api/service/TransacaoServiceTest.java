@@ -10,13 +10,17 @@ import com.paySimplificado.pay_api.repository.UsuarioLojistaRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -24,12 +28,12 @@ class TransacaoServiceTest {
 
     @Autowired
     private TransacaoService transacaoService;
-    @Autowired
+    @Mock
     private UsuarioComumRepository usuarioComumRepository;
-    @Autowired
+    @Mock
     private UsuarioLojistaRepository usuarioLojistaRepository;
-    @Autowired
-    private RecuperaUsuario recuperaUsuario;
+    @Mock
+    private RecuperaUsuario recuperaUsuario = new RecuperaUsuario(usuarioComumRepository, usuarioLojistaRepository);
     private DadosCadastroTransacao dtoTransacao;
     private UsuarioComum usuarioComumOrigem;
     private UsuarioLojista usuarioLojistaDestino;
@@ -54,6 +58,7 @@ class TransacaoServiceTest {
     @Transactional
     void verificaSaqueNaContaDeOrigem() {
 
+        Mockito.when(usuarioComumRepository.findById(dtoTransacao.idUsuarioOrigem())).thenReturn(Optional.ofNullable(usuarioComumOrigem));
         this.transacaoService.efetuarTransacao(this.transacao);
         var usuarioNoBanco = this.usuarioComumRepository.findById(dtoTransacao.idUsuarioOrigem()).orElse(null);
         assertEquals(this.usuarioComumOrigem.getSaldo(), usuarioNoBanco.getSaldo());

@@ -12,12 +12,17 @@ import org.springframework.stereotype.Service;
 @Service
 @NoArgsConstructor
 public class RecuperaUsuario {
-    @Autowired
+
     private UsuarioComumRepository usuarioComumRepository;
-    @Autowired
     private UsuarioLojistaRepository usuarioLojistaRepository;
     private Usuario usuarioOrigem;
     private Usuario usuarioDestino;
+
+    @Autowired
+    public RecuperaUsuario(UsuarioComumRepository usuarioComumRepository, UsuarioLojistaRepository usuarioLojistaRepository){
+        this.usuarioComumRepository = usuarioComumRepository;
+        this.usuarioLojistaRepository = usuarioLojistaRepository;
+    }
 
     public void recuperarUsuarios(Long idUsuarioOrigem, Long idUsuarioDestino) {
         this.usuarioOrigem = this.usuarioComumRepository.getReferenceById(idUsuarioOrigem);
