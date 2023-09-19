@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @NoArgsConstructor
 public class RecuperaUsuario {
@@ -17,6 +20,7 @@ public class RecuperaUsuario {
     private UsuarioLojistaRepository usuarioLojistaRepository;
     private Usuario usuarioOrigem;
     private Usuario usuarioDestino;
+    private List<Usuario> listaUsuarios = new ArrayList<>();
 
     @Autowired
     public RecuperaUsuario(UsuarioComumRepository usuarioComumRepository, UsuarioLojistaRepository usuarioLojistaRepository){
@@ -24,21 +28,24 @@ public class RecuperaUsuario {
         this.usuarioLojistaRepository = usuarioLojistaRepository;
     }
 
-    public void recuperarUsuarios(Long idUsuarioOrigem, Long idUsuarioDestino) {
-        this.usuarioOrigem = this.usuarioComumRepository.getReferenceById(idUsuarioOrigem);
-
+    public List<Usuario> recuperarUsuarios(Long idUsuarioOrigem, Long idUsuarioDestino) {
+        var usuarioOrigem = this.usuarioComumRepository.getReferenceById(idUsuarioOrigem);
+        this.listaUsuarios.add(usuarioOrigem);
         if (this.usuarioComumRepository.getReferenceById(idUsuarioDestino) != null) {
-            this.usuarioDestino = this.usuarioComumRepository.getReferenceById(idUsuarioDestino);
+            var usuarioDestino = this.usuarioComumRepository.getReferenceById(idUsuarioDestino);
+            this.listaUsuarios.add(usuarioDestino);
         } else {
-             this.usuarioDestino = this.usuarioLojistaRepository.getReferenceById(idUsuarioDestino);
+             var usuarioDestino = this.usuarioLojistaRepository.getReferenceById(idUsuarioDestino);
+             this.listaUsuarios.add(usuarioDestino);
         }
+        return this.listaUsuarios;
     }
 
-    public Usuario getUsuarioOrigem() {
-        return this.usuarioOrigem;
-    }
-
-    public Usuario getUsuarioDestino() {
-        return this.usuarioDestino;
-    }
+//    public Usuario getUsuarioOrigem() {
+//        return this.usuarioOrigem;
+//    }
+//
+//    public Usuario getUsuarioDestino() {
+//        return this.usuarioDestino;
+//    }
 }

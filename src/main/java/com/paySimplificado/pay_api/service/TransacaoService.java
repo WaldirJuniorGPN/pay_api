@@ -1,6 +1,5 @@
 package com.paySimplificado.pay_api.service;
 
-import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.model.Usuario;
 import com.paySimplificado.pay_api.service.validacao.Validacao;

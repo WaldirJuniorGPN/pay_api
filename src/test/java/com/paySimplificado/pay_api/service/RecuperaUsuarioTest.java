@@ -2,6 +2,7 @@ package com.paySimplificado.pay_api.service;
 
 import com.paySimplificado.pay_api.dto.request.DadosCadastroUsuarioComum;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroUsuarioLojista;
+import com.paySimplificado.pay_api.model.Usuario;
 import com.paySimplificado.pay_api.model.UsuarioComum;
 import com.paySimplificado.pay_api.model.UsuarioLojista;
 import com.paySimplificado.pay_api.repository.UsuarioComumRepository;
@@ -12,15 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class RecuperaUsuarioTest {
 
+    private final static Integer USUARIO_ORIGEM_INDICE = 0;
+    private final static Integer USUARIO_DESTINO_INDICE = 1;
     private UsuarioComum usuarioComumOrigem;
     private UsuarioComum usuarioComumDestino;
     private UsuarioLojista usuarioLojista;
+    private List<Usuario> listaDeUsuarios;
 
     @Autowired
     private UsuarioComumRepository usuarioComumRepository;
@@ -42,12 +48,11 @@ class RecuperaUsuarioTest {
 
     @Test
     void RecuperaUsuariosSalvosNoBancoDeDados() {
-        this.recuperaUsuario.recuperarUsuarios(1L, 2L);
+      this.listaDeUsuarios = this.recuperaUsuario.recuperarUsuarios(1L, 2L);
 
-        assertNotNull(this.recuperaUsuario.getUsuarioOrigem());
-        assertNotNull(this.recuperaUsuario.getUsuarioDestino());
-        assertEquals(1L, this.recuperaUsuario.getUsuarioOrigem().getId());
-        assertEquals(2L, this.recuperaUsuario.getUsuarioDestino().getId());
+        assertNotNull(this.listaDeUsuarios);
+        assertEquals(1L, this.listaDeUsuarios.get(USUARIO_ORIGEM_INDICE).getId());
+        assertEquals(2L, this.listaDeUsuarios.get(USUARIO_DESTINO_INDICE).getId());
     }
 
 }

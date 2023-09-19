@@ -1,14 +1,10 @@
 package com.paySimplificado.pay_api.controller;
 
-import com.paySimplificado.pay_api.dto.request.DadosCadastroTransacao;
 import com.paySimplificado.pay_api.model.Transacao;
 import com.paySimplificado.pay_api.model.Usuario;
 import com.paySimplificado.pay_api.model.UsuarioComum;
 import com.paySimplificado.pay_api.model.UsuarioLojista;
 import com.paySimplificado.pay_api.repository.TransacaoRepository;
-import com.paySimplificado.pay_api.repository.UsuarioComumRepository;
-import com.paySimplificado.pay_api.repository.UsuarioLojistaRepository;
-import com.paySimplificado.pay_api.service.RecuperaUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

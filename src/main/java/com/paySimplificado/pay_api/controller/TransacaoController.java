@@ -30,8 +30,8 @@ public class TransacaoController {
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTransacao dados, UriComponentsBuilder uriComponentsBuilder){
-        this.recuperaUsuario.recuperarUsuarios(dados.idUsuarioOrigem(), dados.idUsuarioDestino());
-        var transacao = new Transacao(this.recuperaUsuario.getUsuarioOrigem(), this.recuperaUsuario.getUsuarioDestino(), dados.valorDaTransacao());
+        var listaDeUsuarios = this.recuperaUsuario.recuperarUsuarios(dados.idUsuarioOrigem(), dados.idUsuarioDestino());
+        var transacao = new Transacao(listaDeUsuarios.get(0), listaDeUsuarios.get(1), dados.valorDaTransacao());
         this.transacaoService.efetuarTransacao(transacao);
         this.repository.save(transacao);
         var uri = uriComponentsBuilder.path("/transacao/{id}").buildAndExpand(transacao.getId()).toUri();

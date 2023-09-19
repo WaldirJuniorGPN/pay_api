@@ -36,6 +36,4 @@ public class Transacao {
         this.valorDaTransacao = valorDaTransacao;
     }
 
-    public Transacao(DadosCadastroTransacao dados) {
-    }
 }

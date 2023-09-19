@@ -2,9 +2,10 @@ package com.paySimplificado.pay_api.model;
 
 import com.paySimplificado.pay_api.dto.request.DadosAtualizacaoUsuarioLojista;
 import com.paySimplificado.pay_api.dto.request.DadosCadastroUsuarioLojista;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
